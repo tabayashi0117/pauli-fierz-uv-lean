@@ -1,0 +1,21 @@
+name: Lean
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and check axioms
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (with the Mathlib cache)
+        uses: leanprover/lean-action@v1
+        with:
+          build: true
+          use-mathlib-cache: true
+      - name: Check for sorry/axioms and print axioms
+        run: ./scripts/check_axioms.sh
